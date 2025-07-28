@@ -11,7 +11,7 @@ pipeline {
     stage('Terraform Deploy') {
       steps {
         withCredentials([
-          [$class: 'AmazonServicesCredentialsBinding', credentialsId: 'aws-creds']
+          [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-creds']
         ]) {
          sh 'terraform init'
          sh 'terraform validate'
