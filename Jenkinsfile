@@ -19,7 +19,7 @@ pipeline {
           $class: 'AmazonWebServicesCredentialsBinding',
           credentialsId: 'aws-creds'
         ]]) {
-          sh 'terraform init -input=false -migrate-state'
+          sh 'terraform init -reconfigure -input=false'
           sh 'terraform validate'
           sh 'terraform plan -out=tfplan'
           sh 'terraform apply -auto-approve tfplan'
