@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('checkout-code') {
       steps {
-        git branch: 'main', url: 'https://github.com/Rahul917797/terraform-Jenkins-EC2-Latest'
+        git credentialsId: 'github-creds', branch: 'main', url: 'https://github.com/Rahul917797/terraform-Jenkins-EC2-Latest'
             }
          }
 
