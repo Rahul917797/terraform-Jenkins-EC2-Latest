@@ -1,12 +1,6 @@
 pipeline {
   agent any
 
-
-  environment {
-    AWS_ACCESS_KEY_ID = credentials('aws-creds')
-    AWS_SECRET_ACCESS_KEY = credentials('aws-creds')
-}
-
   stages {
     stage('checkout-code') {
       steps {
@@ -14,29 +8,19 @@ pipeline {
             }
          }
 
-    stage('Terraform init') {
+    stage('Terraform Deploy') {
       steps {
-        sh 'terraform init'
-      }
-    }  
-
-    stage('Terraform validate') {
-      steps {
-        sh 'terraform validate'
+        withCredentials([
+          [$class: 'AmazonServicesCredentialsBinding', credentialsId: 'aws-creds']
+        ]) {
+         sh 'terraform init'
+         sh 'terraform validate'
+         sh 'terraform plan'
+         sh 'terraform apply'
+        }
       }
     }
-
-    stage('Terraform plan') {
-      steps {
-        sh 'terraform plan'
-      }
-   }
-
-
-    stage('Terraform apply') {
-      steps {
-        sh 'terraform apply -auto-approve'
-            }
-        }
-     }
   }
+}
+        
+        
