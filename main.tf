@@ -3,7 +3,6 @@ terraform {
     bucket = "myprivatebucket-05011997-28072025"
     key = "terraform.tfstate"
     region = "us-east-1"
-    enabled = true
    }
 }
 
