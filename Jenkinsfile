@@ -8,7 +8,7 @@ pipeline {
 }
 
   stages {
-    stage('checkout') {
+    stage('checkout-code') {
       steps {
         git branch: 'main', url: 'https://github.com/Rahul917797/terraform-Jenkins-EC2-Latest'
             }
