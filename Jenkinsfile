@@ -2,30 +2,29 @@ pipeline {
   agent any
 
   options {
-    skipDefaultCheckout() // avoid Jenkins default SCM checkout to control it explicitly
+    skipDefaultCheckout()  // Avoid auto checkout, to control checkout explicitly
   }
 
-
   stages {
-    stage('checkout-code') {
+    stage('Checkout Code') {
       steps {
-        git branch: 'main', url: 'https://github.com/Rahul917797/terraform-Jenkins-EC2-Latest'
-            }
-         }
+        // Add credentialsId only if repo is private
+        git branch: 'main', url: 'https://github.com/Rahul917797/terraform-Jenkins-EC2-Latest', credentialsId: 'github-creds'
+      }
+    }
 
     stage('Terraform Deploy') {
       steps {
-        withCredentials([
-          [$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-creds']
-        ]) {
-         sh 'terraform init'
-         sh 'terraform validate'
-         sh 'terraform plan'
-         sh 'terraform apply -auto-approve'
+        withCredentials([[
+          $class: 'AmazonWebServicesCredentialsBinding',
+          credentialsId: 'aws-creds'
+        ]]) {
+          sh 'terraform init'
+          sh 'terraform validate'
+          sh 'terraform plan'
+          sh 'terraform apply -auto-approve'
         }
       }
     }
   }
 }
-        
-        
